@@ -154,9 +154,8 @@
 
                                 <div class="form-group">
                                     <div class="col-xs-12 text-right">
-                                        <input class="form-control text-right" id="captcha-input" type="text" id="captcha"
-                                               name="captcha" minlength="4" maxlength="4" placeholder="کد امنیتی را وارد کنید" autocomplete="off"
-                                               onkeypress="hideIcon(this);" oninvalid="InvalidMsg(this,4);" oninput="InvalidMsg(this,4);" required>
+                                        <input class="form-control text-right captcha-input" id="captcha-input" type="text" id="captcha"
+                                               name="captcha" minlength="4" maxlength="4" placeholder="کد امنیتی را وارد کنید" autocomplete="off" required>
                                     </div>
                                 </div>
 
@@ -166,8 +165,9 @@
                                     </div>
 
                                     <a href="javascript:void(0)" id="refresh-captcha" rel="{{url('captcha/flat')}}?">
-                                        <img class="reload-captcha" src="images/menu-icons/rotate-cw.svg">
+                                        <img class="reload-captcha" src="/images/menu-icons/rotate-cw.svg">
                                     </a>
+
                                 </div>
 
                     <div class="form-group text-center m-t-30">

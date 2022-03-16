@@ -48,7 +48,7 @@
                                 <span
                                     style="color: #1f28eb">{{$service->type->name ?? '-'}}</span>
                             </h1>
-                            <h5 class="font-weight-bold">نام درخواست کننده<span
+                            <h5 class="font-weight-bold"> نام درخواست کننده: <span
                                     style="color: #11e4be">{{$service->name}}</span></h5>
 
                         </div>
@@ -60,8 +60,8 @@
                                     <div class="d-flex justify-content-around flex-wrap">
                                         <div class="customer-info-grey customer-info-items font-size-14 px-2"><p>تاریخ
                                                 ثبت درخواست
-                                                {{--                                                <span--}}
-                                                {{--                                                    class="customer-info-dark-blue pr-2">{{\Morilog\Jalali\Jalalian::forge($customerInfo->time)->format('%Y/%m/%d')}}</span>--}}
+                                            <span
+                                            class="customer-info-dark-blue pr-2">{{\Morilog\Jalali\Jalalian::forge($service->created_at)->format('%Y/%m/%d')}}</span>
                                             </p></div>
                                         <div class="customer-info-grey customer-info-items font-size-14 px-2"><p> نام
                                                 شعبه<span
@@ -70,7 +70,7 @@
                                         </div>
                                         <div class="customer-info-grey customer-info-items font-size-14 px-2"><p>کد شعبه<span
                                                     class="customer-info-dark-blue pr-2">
-                                                </span></p></div>
+                                                </span>{{$service->code_branch}} </p></div>
                                         <div class="customer-info-grey customer-info-items font-size-14 px-2"><p> نام
                                                 ثبت کننده<span
                                                     class="customer-info-dark-blue pr-2">{{$service->name}}</span>
@@ -87,11 +87,12 @@
 
                                         <div class="customer-info-grey customer-info-items font-size-14 px-2"><p>
                                                 استان<span
-                                                    class="customer-info-dark-blue pr-2">{{$service->province->name ?? '-'}}</span>
+                                                    class="customer-info-dark-blue pr-2">{{$province->name ?? '-'}}</span>
                                             </p></div>
+
                                         <div class="customer-info-grey customer-info-items font-size-14 px-2"><p>
                                                 شهر<span
-                                                    class="customer-info-dark-blue pr-2">{{$service->city->name ?? '-'}}</span>
+                                                    class="customer-info-dark-blue pr-2">{{$service->city ?? '-'}}</span>
                                             </p></div>
                                         <div class="customer-info-grey customer-info-items font-size-14 px-2"><p>آدرس
                                                 <span
@@ -99,7 +100,7 @@
                                             </p></div>
                                         <div class="customer-info-grey customer-info-items font-size-14 px-2"><p>توضیحات
                                                 <span
-                                                    class="customer-info-dark-blue pr-2">{{$service->ِdesc}}</span>
+                                                    class="customer-info-dark-blue pr-2">{{$service->desc}}</span>
                                             </p></div>
                                     </div>
                                     @if(in_array($service->demand , ['approve' , 'decline']))

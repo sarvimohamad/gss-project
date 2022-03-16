@@ -11447,4 +11447,38 @@ background-color: #f6f6f6;
     margin-top: 10px;
 
 }
+.captcha{
+    height: 32px;
+    background: url("../images/loading.gif") no-repeat center;
+}
+.captcha .reload-captcha{
+    margin: 2px;
+    width: 1rem;
+    height: 2rem;
+}
+/*.captcha-input input{*/
+/*    background-image: url('../images/Lock@3x.png');*/
+/*    background-size: 8% 57%;*/
+/*    background-repeat: no-repeat;*/
+/*    background-position: right;*/
+/*}*/
+.captcha .reload-captcha{
+    margin: 2px;
+    width: 1rem;
+    height: 2rem;
+}
+.captcha img{
+    width:100%;
+}
+/*.captcha-input{*/
+/*    background-image: url('../images/SVG/Shield Done.svg');*/
+/*    background-size: 16% 60%;*/
+/*    background-repeat: no-repeat;*/
+/*    background-position: right;*/
+/*    text-indent: 20px;*/
+/*}*/
+.captcha-input::placeholder{
+    font-size: 0.8rem;
+    padding-right: 1.6rem;
+}
 

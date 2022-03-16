@@ -203,7 +203,7 @@
                             <label for="inputAddress" class="form-label">اظهار نظر مشتری</label>
                         </div>
                         <div class="col-10 p-0">
-                            <textarea name="address" type="text" class="form-group" id="inputAddress" autocomplete="off" rows="4"  value="{{old('desc')}}"></textarea>
+                            <textarea name="desc" type="text" class="form-group" id="inputAddress" autocomplete="off" rows="4"  value="{{old('desc')}}"></textarea>
                         </div>
                     </div>
                 </div>

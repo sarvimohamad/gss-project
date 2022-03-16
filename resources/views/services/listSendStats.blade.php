@@ -42,7 +42,7 @@
                                         <input class="col-12" placeholder="نوع درخواست ، نام ثبت کننده ، نام بانک"
                                                value=""
                                                type="search" id="search"
-                                               name="searchText">
+                                               name="searchText" autocomplete="off">
                                     </div>
 
                                     <div class="col-2">
@@ -90,12 +90,14 @@
                                             </td>
 
                                             <td>
-                                                <div class="d-flex flex-row bd-highlight">
-                                                    <div class=" pr-5">
+                                                <div class="d-flex flex-row bd-highlight ">
+                                                    <div class="p-1">
                                                         <div>
-                                                            <a href="{{route('show' , $item->id)}}"  class="btn btn-outline-info btn-sm">جزئیات</a>
+                                                            <a class="more-info-btn" href="{{route('show' , $item->id)}}">جزئیات<img
+                                                                    src="/images/SVG/Arrow - Down 4.svg" alt="..."
+                                                                    class="pr-1">
+                                                            </a>
                                                         </div>
-
                                                     </div>
                                                     @if(print_r($item->status->id == 1 ,true) && auth()->user()->role == 'bank')
                                                         <div class="">
@@ -116,9 +118,10 @@
                     <!-- /.card -->
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 p-0">
                         <div class="btn-group mr-auto">
-                            <button type="button" id="prevBtn" class="btn btn-primary" onclick="history.go(-1)">
-                                <i class="fa fa-caret-right pl-1"></i> قبلی
-                            </button>
+                            <span> {{ $data->links("pagination") }}</span>
+{{--                            <button type="button" id="prevBtn" class="btn btn-primary" onclick="history.go(-1)">--}}
+{{--                                <i class="fa fa-caret-right pl-1"></i> قبلی--}}
+{{--                            </button>--}}
                             {{--                            @if($searchStatus == 0)--}}
                             {{--                                <a href="requests?lastId={{$lastId}}" class="btn btn-primary" id="nextBtn">--}}
                             {{--                                    بعدی--}}

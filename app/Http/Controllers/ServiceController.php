@@ -54,7 +54,7 @@ class ServiceController extends Controller
         }
         $status = Status::all();
 
-        return view('services.show', ['service' => $service, 'statuses' => $status]);
+        return view('services.show', ['service' => $service, 'statuses' => $status ]);
     }
 
     public function create(Request $request)
@@ -86,6 +86,7 @@ class ServiceController extends Controller
 //        $data['status_id'] = 1;
 //        $data->typeRequest = 2;
         $data = new Service();
+        $data->user_id = auth()->user()->id;
         $data->name = $request->name;
         $data->mobile = $request->mobile;
         $data->telephone = $request->telephone;
@@ -102,7 +103,6 @@ class ServiceController extends Controller
 //        $data->created_at = carbon::now();
         $data['status_id'] = 1;
         $data['type_id'] = $request->get('type');
-        dd($data->toArray());
         $data->save();
 //        $data = Service::query()->create($request->toArray());
         return back()->with('success', 'درخواست با موفقیت ارسال شد ');
@@ -163,7 +163,7 @@ class ServiceController extends Controller
             ]);
         }
 
-        return back()->with('success', 'تغییرات با موفقیت انجام شد ');
+        return back();
     }
 
     public function addMessage(Request $request, $id)
@@ -186,7 +186,7 @@ class ServiceController extends Controller
 
     public function listSendStats()
     {
-        $data = Service::all();
+        $data = Service::paginate(5);
         return view('services.listSendStats', ['data' => $data]);
     }
 

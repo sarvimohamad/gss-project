@@ -185,7 +185,7 @@
                             <label for="inputAddress" class="form-label">آدرس</label>
                         </div>
                         <div class="col-10 p-0">
-                            <textarea name="address" type="text" class="form-group" id="inputAddress" rows="1" autocomplete="off" value="{{old('address' , $service->address)}}"></textarea>
+                            <textarea name="address" type="text" class="form-group" id="inputAddress" rows="1" autocomplete="off" value="{{old('address' , $service->address)}}">{{old('address' , $service->address)}}</textarea>
                         </div>
                     </div>
                 </div>
@@ -198,7 +198,7 @@
                             <label for="inputAddress" class="form-label">اظهار نظر مشتری</label>
                         </div>
                         <div class="col-10 p-0">
-                            <textarea name="desc" type="text" class="form-control" id="inputAddress" placeholder="نظرات..." value="{{old('desc' , $service->desc)}}"></textarea>
+                            <textarea name="desc" type="text" class="form-control" id="inputAddress" placeholder="نظرات..." value="{{old('desc' , $service->desc)}}">{{old('desc' , $service->desc)}}</textarea>
                         </div>
                     </div>
                 </div>
