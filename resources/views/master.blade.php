@@ -46,7 +46,7 @@
         <!-- Left navbar links -->
         <ul class="navbar-nav">
             <li class="nav-item d-none d-sm-inline-block">
-                <a href="dashboard" class="nav-link"><img src="/images/SVG/Two color_Home 2 (1).svg" alt=""></a>
+                <a href="/RequestServices" class="nav-link"><img src="/images/SVG/Two color_Home 2 (1).svg" alt=""></a>
             </li>
         </ul>
 
@@ -59,7 +59,7 @@
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar">
         <!-- Brand Logo -->
-        <a href="dashboard" class="brand-link" style="text-decoration: none ; margin-right: 0.8rem">
+        <a href="" class="brand-link" style="text-decoration: none ; margin-right: 0.8rem">
             <img src="/images/logo.png" alt="AdminLTE Logo" class="brand-image img-circle">
             <span class="brand-text font-weight-bold">پنل مدیریت</span>
         </a>
@@ -96,14 +96,14 @@
                                 <li class="nav-item">
                                     <a href="{{route('index')}}" class="nav-link @if(URL::current() == route('index')) active @endif ">
                                         <i class="fa fa-circle-o nav-icon"></i>
-                                        <p>لیست درخواست ها</p>
+                                        <p class="nav-p">لیست درخواست ها</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     @if(auth()->user()->role == 'user')
                                     <a href="{{route('listSendStats')}}" class="nav-link @if(URL::current() == route('listSendStats')) active @endif ">
                                         <i class="fa fa-circle-o nav-icon"></i>
-                                        <p> درخواست های ثبت شده</p>
+                                        <p class="nav-p"> درخواست های ثبت شده</p>
                                     </a>
                                 </li>
                                 @endif()

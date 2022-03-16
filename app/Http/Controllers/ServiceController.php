@@ -14,7 +14,13 @@ class ServiceController extends Controller
 
     public function index(Request $request)
     {
+
         $query = Service::query();
+
+        if (auth()->user()->role == 'bank') {
+            $query->where('user_id', auth()->user()->id);
+        }
+
         if ($s = $request->get('q')) {
             $query->where(function ($q) use ($s) {
                 $q->orWhere('name', 'like', "%{$s}%");
@@ -30,7 +36,8 @@ class ServiceController extends Controller
         if ($s = $request->get('date_to')) {
             $query->where('created_at', '<=', $s);
         }
-        $data = $query->orderBy('created_at', 'DESC')->paginate(5);
+
+        $data = $query->paginate(5);
         $status = Status::query()->get()->all();
 
         return view('services.pending', ['data' => $data, 'status' => $status]);
@@ -60,15 +67,14 @@ class ServiceController extends Controller
 
     public function store(Request $request)
     {
-
         $request->validate([
             'name' => ['required', 'string', 'max:100'],
             'mobile' => ['required', 'digits:11', 'starts_with:09'],
-            'province' => ['required', 'exists:tbl_website_state'],
-            'city' => ['required', 'exists:tbl_website_city'],
+            'province' => ['required', 'exists:tbl_website_state,id'],
+            'city' => ['required', 'exists:tbl_website_city,id'],
             'telephone' => ['required', 'max:15'],
             'address' => ['min:4', 'required'],
-            'bankName' => ['required', 'string', 'max:4'],
+            'bankName' => ['required', 'string', 'max:100'],
             'serial' => ['required', 'max:100'],
             'desc' => ['max:900'],
             'breakdown' => ['max:200'],
@@ -96,7 +102,7 @@ class ServiceController extends Controller
 //        $data->created_at = carbon::now();
         $data['status_id'] = 1;
         $data['type_id'] = $request->get('type');
-//        dd($data->toArray());
+        dd($data->toArray());
         $data->save();
 //        $data = Service::query()->create($request->toArray());
         return back()->with('success', 'درخواست با موفقیت ارسال شد ');
@@ -104,9 +110,10 @@ class ServiceController extends Controller
 
     public function edit($id)
     {
+        $province = Province::all();
         $typeRequest = TypeRequest::all();
         $service = Service::find($id);
-        return view('services.edit', ['service' => $service, 'typeRequest' => $typeRequest]);
+        return view('services.edit', ['service' => $service, 'typeRequest' => $typeRequest ,'province'=>$province]);
     }
 
     public function update(Request $request, $id)
@@ -121,6 +128,7 @@ class ServiceController extends Controller
 
     public function pending(Request $request, $id)
     {
+
         $services = Service::query()->find($id);
         $services['status_id'] = $request->get('status', $services->status_id);
         $services->save();
@@ -141,13 +149,40 @@ class ServiceController extends Controller
 
     public function verify(Request $request, $id)
     {
-        $services = Service::find($id);
-        $services->demand = $request->get('demand');
-        $services->reason = $request->get('DropDown');
-        $services->save();
-        return back()->with('success', 'تغییرات با موفقیت انجام شد ');
+        /** @var Service $service */
+        $service = Service::query()->find($id);
 
+        $service->update([
+            'demand' => $request->get('demand')
+        ]);
+
+        if ($request->get('text')) {
+            $service->messages()->create([
+                'user_id' => auth()->user()->id,
+                'text' => $request->get('text')
+            ]);
+        }
+
+        return back()->with('success', 'تغییرات با موفقیت انجام شد ');
     }
+
+    public function addMessage(Request $request, $id)
+    {
+        /** @var Service $service */
+        $service = Service::query()->find($id);
+
+        $service->messages()->create([
+            'user_id' => auth()->user()->id,
+            'text' => $request->get('text')
+        ]);
+
+        if ($service->status_id == 2) {
+            $service->update(['status_id' => 3]);
+        }
+
+        return redirect()->route('show', [$id]);
+    }
+
 
     public function listSendStats()
     {

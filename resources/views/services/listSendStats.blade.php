@@ -39,7 +39,7 @@
                                   enctype="multipart/form-data">
                                 <div class="row mb-3 mt-2">
                                     <div class="col-3">
-                                        <input class="col-12" placeholder="نام خانوادگی،نام بانک"
+                                        <input class="col-12" placeholder="نوع درخواست ، نام ثبت کننده ، نام بانک"
                                                value=""
                                                type="search" id="search"
                                                name="searchText">

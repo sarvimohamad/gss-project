@@ -14,8 +14,8 @@
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-left">
-                            <li class="breadcrumb-item"><a href="dashboard">خانه</a></li>
-                            <li class="breadcrumb-item active">پیشخوان</li>
+                            <li class="breadcrumb-item"><a style="text-decoration: none" href="">خانه</a></li>
+                            <li class="breadcrumb-item "><a style="text-decoration: none" href="{{route('index')}}"> لیست درخواست ها</a></li>
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->

@@ -2,6 +2,17 @@
 @section('content')
 
     <div class="content-wrapper">
+
+        @if ($errors->any())
+            <div class="alert-validation">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         <div class="p-2 pb-5 text-bold">
             ویرایش درخواست ارزیابی
         </div>
@@ -22,7 +33,7 @@
                 <div class="row">
                     <div class="form-group col-md-5 col-12 text-center mx-auto ">
                         <div class="col-4 p-0">
-                            <label for="firstNameInput" class="ml-2">* نوع درخواست</label>
+                            <label for="firstNameInput" class="ml-2"> نوع درخواست</label>
                         </div>
                         <div class="col-8 p-0">
                             <select class="form-select" aria-label="Default select example" name="type_id" required>
@@ -37,15 +48,16 @@
                             <label for="input-State" class="form-label">استان</label>
                         </div>
                         <div class="col-8 p-0">
-                            <select class="form-select" aria-label="Default select example">
-                                <option selected></option>
-                                <option></option>
+                            <select class="form-select" name="province">
+                                <option>-- انتخاب --</option>
+                                @foreach($province as $rows)
+                                    <option value="{{$rows->id}}">{{$rows->name}}</option>
+                                @endforeach()
                             </select>
                         </div>
                     </div>
                 </div>
             </div>
-
             <div class="col-12 mb-3 ">
                 <div class="row">
                     <div class="form-group col-md-5 col-12 text-center mx-auto ">
@@ -56,9 +68,8 @@
                             <label for="input-State" class="form-label">شهر</label>
                         </div>
                         <div class="col-8 p-0">
-                            <select class="form-select" aria-label="Default select example">
-                                <option selected></option>
-                                <option>...</option>
+                            <select class="form-select" name="city">
+                                <option>-- انتخاب --</option>
                             </select>
                         </div>
                     </div>
@@ -114,7 +125,7 @@
                             <label for="inputMobile" class="form-label">تلفن همراه</label>
                         </div>
                         <div class="col-8 p-0">
-                            <input name="mobile" type="text" class="form-control" id="inputMobile" value="{{old('mobile' , $service->mobile)}}"  autocomplete="off">
+                            <input name="mobile" type="tel" max="11"  class="form-control" id="inputMobile" value="{{old('mobile' , $service->mobile)}}"  autocomplete="off">
                         </div>
                     </div>
                     <div class="form-group col-lg-5 col-12 text-center mx-auto">
@@ -122,7 +133,7 @@
                             <label for="inputEmail4" class="form-label">تلفن ثابت</label>
                         </div>
                         <div class="col-8 p-0">
-                            <input name="telephone" type="text" class="form-control" id="inputEmail4" value="{{old('telephone' , $service->telephone)}}"  autocomplete="off">
+                            <input name="telephone" type="tel" max="11"  class="form-control" id="inputEmail4" value="{{old('telephone' , $service->telephone)}}"  autocomplete="off">
                         </div>
                     </div>
                 </div>
@@ -198,7 +209,6 @@
                     <input  type="submit" class="btn btn-primary" value="ویرایش">
                 </div>
             </div>
-
 
         </form>
 

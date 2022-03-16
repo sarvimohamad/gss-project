@@ -4011,11 +4011,17 @@ textarea.form-control-lg {
   background: none;
   border: 0;
   border-radius: 0.25rem;
+
 }
 .nav-pills .nav-link.active,
 .nav-pills .show > .nav-link {
-  color: #fff;
-  background-color: #0d6efd;
+  background-color: #acc7e7;
+    opacity: 0.8;
+    border-radius:5px;
+    color: black;
+}
+.nav-p{
+    color: black;
 }
 
 .nav-fill > .nav-link,
@@ -11407,5 +11413,38 @@ textarea.form-control-lg {
     padding-top: 0.75rem;
     font-size: initial;
 }
-.form-select
+.message-box{
+    /*display: flex;*/
+    /*align-items: center;*/
+    /*justify-content: center;*/
+    padding: 1rem;
+}
+.message-box-user{
+background-color: #f6f6f6;
+    opacity: 0.8;
+    border: 1px solid #d3d3ee;
+    border-radius: 5px;
+    width: 100%;
+    /*background-image: linear-gradient(#dddfe3, #f5f2f2);*/
+
+
+}
+.message-box-bank{
+    background-color: #ecf1ec;
+    border: 1px solid #b9deb8;
+    border-radius: 5px;
+    width: 100%;
+    opacity: 0.8;
+    /*background-image: linear-gradient(#e2dadc, #e2afb8);*/
+}
+.alert-validation{
+    background-color: #ecdada;
+    border: 1px solid #c37777;
+    padding: 1rem;
+    width: 50%;
+    margin-right: inherit;
+    border-radius: 5px;
+    margin-top: 10px;
+
+}
 

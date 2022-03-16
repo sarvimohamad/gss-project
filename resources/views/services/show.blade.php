@@ -28,10 +28,10 @@
 
 
         <div class="alert-div">
-            @if (\Session::has('success'))
-                <div class="success"  role="alert">
+            @if (Session::has('success'))
+                <div class="success" role="alert">
                     <ul class="box-div" style="list-style-type:none;">
-                        <li class="font-alert">{!! \Session::get('success') !!}</li>
+                        <li class="font-alert">{!! Session::get('success') !!}</li>
                     </ul>
                 </div>
             @endif
@@ -43,11 +43,11 @@
             <div class="row">
                 <div class="col-11 mx-auto">
                     <div class="card">
-                        <div class="card-header d-flex justify-content-between pr-5 py-4">
+                        <div class="card-header d-flex justify-content-between pr-5 py-4 ">
                             <h1 class="card-title font-weight-bold pl-5">نوع درخواست
                                 <span
-                                    style="color: #1f28eb">{{$service->type->name}}</span>
-                               </h1>
+                                    style="color: #1f28eb">{{$service->type->name ?? '-'}}</span>
+                            </h1>
                             <h5 class="font-weight-bold">نام درخواست کننده<span
                                     style="color: #11e4be">{{$service->name}}</span></h5>
 
@@ -56,20 +56,23 @@
                         <div class="card-body" id="customer-info">
                             <div class="modal-body">
 
-                                <div class="container p-5" style="background-color:#fafdff">
+                                <div class="container p-5 mb-5" style="background-color:#fafdff">
                                     <div class="d-flex justify-content-around flex-wrap">
                                         <div class="customer-info-grey customer-info-items font-size-14 px-2"><p>تاریخ
-                                                ثبت درخواست <span
+                                                ثبت درخواست
+                                                {{--                                                <span--}}
                                                 {{--                                                    class="customer-info-dark-blue pr-2">{{\Morilog\Jalali\Jalalian::forge($customerInfo->time)->format('%Y/%m/%d')}}</span>--}}
                                             </p></div>
-                                        <div class="customer-info-grey customer-info-items font-size-14 px-2"><p> نام شعبه<span
+                                        <div class="customer-info-grey customer-info-items font-size-14 px-2"><p> نام
+                                                شعبه<span
                                                     class="customer-info-dark-blue pr-2">{{$service->bankName}}</span>
                                             </p>
                                         </div>
                                         <div class="customer-info-grey customer-info-items font-size-14 px-2"><p>کد شعبه<span
                                                     class="customer-info-dark-blue pr-2">
                                                 </span></p></div>
-                                        <div class="customer-info-grey customer-info-items font-size-14 px-2"><p> نام ثبت کننده<span
+                                        <div class="customer-info-grey customer-info-items font-size-14 px-2"><p> نام
+                                                ثبت کننده<span
                                                     class="customer-info-dark-blue pr-2">{{$service->name}}</span>
                                             </p>
                                         </div>
@@ -77,14 +80,17 @@
                                                 موبایل <span
                                                     class="customer-info-dark-blue pr-2">{{$service->mobile}}</span>
                                             </p></div>
-                                        <div class="customer-info-grey customer-info-items font-size-14 px-2"><p>تلفن ثابت
+                                        <div class="customer-info-grey customer-info-items font-size-14 px-2"><p>تلفن
+                                                ثابت
                                                 <span class="customer-info-dark-blue pr-2">{{$service->telephone}}
                                                 </span></p></div>
 
-                                        <div class="customer-info-grey customer-info-items font-size-14 px-2"><p>استان<span
+                                        <div class="customer-info-grey customer-info-items font-size-14 px-2"><p>
+                                                استان<span
                                                     class="customer-info-dark-blue pr-2">{{$service->province->name ?? '-'}}</span>
                                             </p></div>
-                                        <div class="customer-info-grey customer-info-items font-size-14 px-2"><p>شهر<span
+                                        <div class="customer-info-grey customer-info-items font-size-14 px-2"><p>
+                                                شهر<span
                                                     class="customer-info-dark-blue pr-2">{{$service->city->name ?? '-'}}</span>
                                             </p></div>
                                         <div class="customer-info-grey customer-info-items font-size-14 px-2"><p>آدرس
@@ -97,7 +103,8 @@
                                             </p></div>
                                     </div>
                                     @if(in_array($service->demand , ['approve' , 'decline']))
-                                        <div class="customer-info-grey customer-info-items font-size-14 px-2"><p>وضعیت بررسی شعبه
+                                        <div class="customer-info-grey customer-info-items font-size-14 px-2"><p>وضعیت
+                                                بررسی شعبه
                                                 <span
                                                     class="customer-info-dark-blue pr-2">
                                                      @if($service->demand == 'approve') تایید درخواست
@@ -113,29 +120,33 @@
                                     @if(auth()->user()->role == 'user')
                                         @if(!$service->demand == ['decline' , 'approve'])
 
-                                            @if(in_array( $service->status_id ,[1,2] ))
-                                                <form action="{{route('pending' , [$service->id])}}" method="post">
+                                            @if(in_array( $service->status_id ,[1,2,3] ))
+                                                <form action="{{route('add.message' , [$service->id])}}" method="post">
                                                     @csrf
-                                                    <select class="form-select select-item  form-select-lg  mr-1 ml-1" name="status">
+                                                    <select class="form-select select-item  form-select-lg  mr-1 ml-1"
+                                                            name="status">
                                                         @foreach($statuses as $status)
                                                             <option @if($status->id == $service->status_id) selected
-                                                                    @endif @if(in_array($status->id ,[1,2])) disabled @endif() value="{{$status->id}}">{{$status->name}}</option>
+                                                                    @endif @if(in_array($status->id ,[1,2])) disabled
+                                                                    @endif() value="{{$status->id}}">{{$status->name}}</option>
                                                         @endforeach()
                                                     </select>
 
                                                     <div class="d-flex justify-content-center mt-5">
                                                         <div class="form-group">
-                                                            <div class="textarea2"style="display: none">توضیحات</div>
-                                                            <textarea class="form-control DropDownStatus"  rows="3" ></textarea>
+                                                            <div class="textarea2" style="display: none">توضیحات</div>
+                                                            <textarea name="text" class="form-control DropDownStatus"
+                                                                      rows="3"></textarea>
                                                         </div>
                                                     </div>
 
-                                                    <div class="d-flex justify-content-center pt-3 mt-3" >
-                                                        <input type="submit" class="btn btn-primary btn-md" value="ارسال به شعبه">
+                                                    <div class="d-flex justify-content-center pt-3 mt-3 mb-5">
+                                                        <input type="submit" class="btn btn-primary btn-md"
+                                                               value="ارسال به شعبه">
                                                     </div>
                                                 </form>
                                             @else()
-                                                <div class="d-flex justify-content-center pt-3 mt-3" >
+                                                <div class="d-flex justify-content-center pt-3 mt-3">
                                                     <div class="alert-demand" style="height: 3rem ;display: none">
                                                         @if($service->demand == 'approve')
                                                             <p class="alert-para">شما درخواست را تایید کرده اید</p>
@@ -145,7 +156,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="d-flex justify-content-center pt-3 mt-3" >
+                                                <div class="d-flex justify-content-center pt-3 mt-3">
                                                     <div class="alert-demand" style="height: 3rem">
                                                         <p class="alert-para">درخواست شما ارسال شده</p>
                                                     </div>
@@ -159,15 +170,18 @@
                                 <div class="">
 
                                     @if(!$service->demand)
-                                        <form class="verify-form" method="post" action="{{route('verify' , $service->id)}}">
+                                        <form class="verify-form" method="post"
+                                              action="{{route('verify' , $service->id)}}">
                                             @csrf
                                             @if(auth()->user()->role == 'bank' and !in_array($service->status->id,[1,2]))
 
                                                 <div class="d-flex justify-content-center m-3">
                                                     <div class="col-6">
-                                                        <select class="form-select form-select-md mb-3 select-item" style="background-color: #e1e7e7" aria-label=".form-select-md example" name="demand">
+                                                        <select class="form-select form-select-md mb-3 select-item"
+                                                                style="background-color: #e1e7e7"
+                                                                aria-label=".form-select-md example" name="demand">
                                                             <option selected disabled>-- انتخاب --</option>
-                                                            <option  value="approve">تایید درخواست</option>
+                                                            <option value="approve">تایید درخواست</option>
                                                             <option value="decline">عدم تایید درخواست</option>
                                                         </select>
                                                     </div>
@@ -175,8 +189,9 @@
 
                                                 <div class="d-flex justify-content-center mt-5">
                                                     <div class="form-group">
-                                                        <div class="textarea2"style="display: none">توضیحات</div>
-                                                        <textarea class="form-control DropDown"  rows="3" ></textarea>
+                                                        <div class="textarea2" style="display: none">توضیحات</div>
+                                                        <textarea name="text" class="form-control DropDown"
+                                                                  rows="3"></textarea>
                                                     </div>
                                                 </div>
 
@@ -194,37 +209,66 @@
                                         <div class="d-flex justify-content-center ">
                                             <div class="div-alert-bank">
                                                 <div>درخواست شما ارسال شده است
-                                                <span>شما درخواست را
+                                                    <span>شما درخواست را
                                                 @if($service->demand == 'approve')
-                                                    تایید کرده اید.
-                                                @elseif($service->demand == 'decline')
-                                                    تایید نکرده اید.
-                                                @endif()
-                                                @endif()
+                                                            تایید کرده اید.
+                                                        @elseif($service->demand == 'decline')
+                                                            تایید نکرده اید.
+                                                        @endif()
+                                                        @endif()
                                                 </span>
                                                 </div>
                                             </div>
                                         </div>
                                     @endif()
 
-                                        <div class="d-flex justify-content-center  pt-5">
-                                            @if($service->status->id == 1)
-                                                <a href="{{route('index')}}" class="btn btn-outline-secondary btn-sm">بازگشت</a>
-                                            @endif()
-                                        </div>
+
+                                @if($service->messages->count())
+                                    @foreach($service->messages as $message)
+
+                                                <?php
+                                                $time = \Morilog\Jalali\Jalalian::forge($message->service->created_at)->format('%H:%M:%S  %Y/%m/%d');
+                                                ?>
+                                                <div class="col-12 mb-2 mt-1  pt-3">
+                                                    <div class="row">
+                                                <div class="d-flex justify-content-center">
+                                                    <div class="col-2 pr-5 mt-3 pl-5 d-flex justify-content-end  flex-column bd-highlight ">
+                                                        <div class=" bd-highlight"><label for="user"  class="form-label">{{$message->user->name}}:</label></div>
+                                                        <div class=" bd-highlight"><p class="">{{$time}}</p></div>
+                                                    </div>
+
+
+                                                    <div class="message-box @if($message->user_id == auth()->user()->id) message-box-user @else message-box-bank @endif mt-2">
+                                                        <div class="col-8 p-0"><p id="user">{!! nl2br($message->text) !!}</p></div>
+                                                    </div>
+                                                    <div class="col-2"></div>
+                                                </div>
+                                                </div>
+                                                </div>
+                                    @endforeach
+                                @endif
+
+                                    <div class="d-flex justify-content-center  pt-5">
+                                        @if($service->status->id == 1)
+                                            <a href="{{route('index')}}"
+                                               class="btn btn-outline-secondary btn-sm">بازگشت</a>
+                                        @endif()
+                                    </div>
                             </div>
                         </div>
 
 
-
                     </div>
-                        </div>
-                    </div>
-
-
                 </div>
             </div>
-        </section>
+
+
     </div>
+    </div>
+
+    </section>
+    </div>
+
+
 
 @endsection

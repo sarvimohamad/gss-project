@@ -115,6 +115,9 @@ return [
         'password' => 'پسوورد' ,
         'captcha' => 'کد امنیتی' ,
         'password_confirm' => 'کد امنیتی' ,
+        'mobile' => 'موبایل',
+        'typeRequest' => 'مشخصات محصول',
+        'desc' => 'اظهار نظر',
     ),
 
 

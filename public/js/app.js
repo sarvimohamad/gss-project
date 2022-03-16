@@ -64,5 +64,5 @@ $('.select-item').change(function (){
     }else{
         $('.DropDownStatus').hide()
     }
-});
+}).trigger('change');
 

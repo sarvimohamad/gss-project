@@ -38,7 +38,7 @@
                                   enctype="multipart/form-data">
                                 <div class="row mb-3 mt-2">
                                     <div class="col-3">
-                                        <input class="col-12" placeholder="نام خانوادگی، کد ملی، تلفن همراه" name="q"  type="search" id="search">
+                                        <input class="col-12" placeholder="  نوع درخواست ، نام ثبت کننده ، نام بانک" name="q"  type="search" id="search">
                                     </div>
                                     <div class="col-2">
                                         <select class="col-12" name="status" id="status">
