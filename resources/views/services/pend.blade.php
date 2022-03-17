@@ -108,8 +108,9 @@
                                             <button disabled
                                                     @if(print_r($item->status->id == 1 ,true)) class="btn btn-dark btn-sm rounded button-status"
                                                     @elseif(print_r($item->status->id == 2 ,true)) class="btn btn-warning btn-sm rounded button-status"
-                                                    @elseif(print_r($item->status->id == 3 ,true)) class="btn btn-success btn-sm rounded button-status"
-                                                    @elseif(print_r($item->status->id == 4 ,true)) class="btn btn-danger btn-sm rounded button-status"
+                                                    @elseif(print_r($item->status->id == 3 ,true)) class="btn btn-primary btn-sm rounded button-status"
+                                                    @elseif(print_r($item->status->id == 4 ,true)) class="btn btn-success btn-sm rounded button-status"
+                                                    @elseif(print_r($item->status->id == 5 ,true)) class="btn btn-danger btn-sm rounded button-status"
                                                 @endif()>{{$item->status->name}}</button>
                                         </td>
                                         <td>

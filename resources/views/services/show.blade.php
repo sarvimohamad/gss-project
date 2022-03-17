@@ -119,16 +119,16 @@
 
                                 <div class="div-alert">
                                     @if(auth()->user()->role == 'user')
-                                        @if(!$service->demand == ['decline' , 'approve'])
+{{--                                        @if(!$service->demand == ['decline' , 'approve'])--}}
 
                                             @if(in_array( $service->status_id ,[1,2,3] ))
                                                 <form action="{{route('add.message' , [$service->id])}}" method="post">
                                                     @csrf
-                                                    <select class="form-select select-item  form-select-lg  mr-1 ml-1"
+                                                    <select class="form-select select-item  form-select-md  mr-1 ml-1"
                                                             name="status">
                                                         @foreach($statuses as $status)
                                                             <option @if($status->id == $service->status_id) selected
-                                                                    @endif @if(in_array($status->id ,[1,2])) disabled
+                                                                    @endif @if(in_array($status->id ,[1,2,4,5])) disabled
                                                                     @endif() value="{{$status->id}}">{{$status->name}}</option>
                                                         @endforeach()
                                                     </select>
@@ -137,7 +137,7 @@
                                                         <div class="form-group">
                                                             <div class="textarea2" style="display: none">توضیحات</div>
                                                             <textarea name="text" class="form-control DropDownStatus"
-                                                                      rows="3"></textarea>
+                                                                      rows="3" required></textarea>
                                                         </div>
                                                     </div>
 
@@ -164,26 +164,30 @@
                                                 </div>
 
                                             @endif()
-                                        @endif()
+{{--                                        @endif()--}}
                                     @endif()
                                 </div>
 
                                 <div class="">
+{{--                                    {{$message->user->role}}--}}
+{{--                                    {{auth()->user()->role}}--}}
 
-                                    @if(!$service->demand)
+
+                                    @if($service->demand !== 'approve')
                                         <form class="verify-form" method="post"
                                               action="{{route('verify' , $service->id)}}">
                                             @csrf
-                                            @if(auth()->user()->role == 'bank' and !in_array($service->status->id,[1,2]))
+                                            @if(auth()->user()->role == 'bank' and !in_array($service->status->id,[1,2]) and $message->user->role !== auth()->user()->role)
 
                                                 <div class="d-flex justify-content-center m-3">
                                                     <div class="col-6">
                                                         <select class="form-select form-select-md mb-3 select-item"
                                                                 style="background-color: #e1e7e7"
                                                                 aria-label=".form-select-md example" name="demand">
-                                                            <option selected disabled>-- انتخاب --</option>
+                                                            <option selected value="response">ارسال پاسخ</option>
                                                             <option value="approve">تایید درخواست</option>
                                                             <option value="decline">عدم تایید درخواست</option>
+
                                                         </select>
                                                     </div>
                                                 </div>
@@ -202,33 +206,35 @@
                                                 </div>
                                         </form>
                                     @endif()
-                                </div>
+
                                 @endif()
 
-                                @if(auth()->user()->role == 'bank')
-                                    @if(in_array($service->demand , ['approve' , 'decline']))
-                                        <div class="d-flex justify-content-center ">
-                                            <div class="div-alert-bank">
-                                                <div>درخواست شما ارسال شده است
-                                                    <span>شما درخواست را
-                                                @if($service->demand == 'approve')
-                                                            تایید کرده اید.
-                                                        @elseif($service->demand == 'decline')
-                                                            تایید نکرده اید.
-                                                        @endif()
-                                                        @endif()
-                                                </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @endif()
+{{--                                @if(auth()->user()->role == 'bank')--}}
+{{--                                    @if($service->demand == 'approve')--}}
+{{--                                        <div class="d-flex justify-content-center mb-5">--}}
+{{--                                            <div class="div-alert-bank">--}}
+{{--                                                <div>درخواست شما ارسال شده است--}}
+{{--                                                    <span>شما درخواست را--}}
+{{--                                                @if($service->demand == 'approve')--}}
+{{--                                                            تایید کرده اید.--}}
+{{--                                                        @elseif($service->demand == 'decline')--}}
+{{--                                                            تایید نکرده اید.--}}
+{{--                                                        @endif()--}}
+{{--                                                        @endif()--}}
+{{--                                                </span>--}}
+{{--                                                </div>--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
+{{--                                    @endif()--}}
 
 
                                 @if($service->messages->count())
                                     @foreach($service->messages as $message)
 
                                                 <?php
-                                                $time = \Morilog\Jalali\Jalalian::forge($message->service->created_at)->format('%H:%M:%S  %Y/%m/%d');
+                                                $time = \Morilog\Jalali\Jalalian::forge($message->created_at)->format('%H:%M:%S %Y/%m/%d');
+//                                            \Morilog\Jalali\Jalalian::forge($request->createtime)->format('%H:%M:%S  %Y/%m/%d')
+//                                            ." ".explode(" ",$message->service->created_at)[1]
                                                 ?>
                                                 <div class="col-12 mb-2 mt-1  pt-3">
                                                     <div class="row">

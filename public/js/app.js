@@ -49,7 +49,7 @@ $(document).ready(function () {
 $('.select-item').change(function (){
 
     var value = $(this).val()
-    if(value == 'decline'){
+    if(value !== 'approve'){
        $('.DropDown , .textarea').show()
     }else {
         $('.DropDown').hide()

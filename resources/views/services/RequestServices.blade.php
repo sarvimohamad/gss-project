@@ -131,7 +131,7 @@
                             <label for="inputMobile" class="form-label">تلفن همراه</label>
                         </div>
                         <div class="col-8 p-0">
-                            <input name="mobile" type="tel"  max="11" class="form-control" id="inputMobile"  autocomplete="off" required  value="{{old('mobile')}}">
+                            <input name="mobile" type="tel"  maxlength="11" class="form-control" id="inputMobile"  autocomplete="off" required  value="{{old('mobile')}}">
                         </div>
                     </div>
                     <div class="form-group col-lg-5 col-12 text-center mx-auto">
@@ -139,7 +139,7 @@
                             <label for="inputEmail4" class="form-label">تلفن ثابت</label>
                         </div>
                         <div class="col-8 p-0">
-                            <input name="telephone" type="tel" max="11" class="form-control" id="inputEmail4"  autocomplete="off"  value="{{old('telephone')}}">
+                            <input name="telephone" type="tel" maxlength="11" class="form-control" id="inputEmail4"  autocomplete="off"  value="{{old('telephone')}}">
                         </div>
                     </div>
                 </div>

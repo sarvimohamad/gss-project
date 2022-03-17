@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\City;
+use App\Models\Message;
 use App\Models\Province;
 use App\Models\Service;
 use App\Models\Status;
@@ -37,7 +38,7 @@ class ServiceController extends Controller
             $query->where('created_at', '<=', $s);
         }
 
-        $data = $query->paginate(5);
+        $data = $query->orderBy('created_at','DESC')->paginate(5);
         $status = Status::query()->get()->all();
 
         return view('services.pending', ['data' => $data, 'status' => $status]);
@@ -45,6 +46,7 @@ class ServiceController extends Controller
 
     public function show(Request $request, $id)
     {
+        $message = Message::latest()->first();
 
         $service = Service::find($id);
         if (auth()->user()->role == 'user') {
@@ -54,7 +56,7 @@ class ServiceController extends Controller
         }
         $status = Status::all();
 
-        return view('services.show', ['service' => $service, 'statuses' => $status ]);
+        return view('services.show', ['service' => $service, 'statuses' => $status , 'message'=>$message ]);
     }
 
     public function create(Request $request)
@@ -162,14 +164,20 @@ class ServiceController extends Controller
                 'text' => $request->get('text')
             ]);
         }
+        if ($service->status_id == 3 and $service->demand == 'decline'){
+            $service->update(['status_id' => 5]);
+        }elseif($service->status_id == 3 and $service->demand == 'approve'){
+            $service->update(['status_id' => 4]);
+        }
 
-        return back();
+        return back()->with('success', 'ارسال  با موفقیت انجام شد');
     }
 
     public function addMessage(Request $request, $id)
     {
         /** @var Service $service */
         $service = Service::query()->find($id);
+
 
         $service->messages()->create([
             'user_id' => auth()->user()->id,
@@ -180,7 +188,9 @@ class ServiceController extends Controller
             $service->update(['status_id' => 3]);
         }
 
-        return redirect()->route('show', [$id]);
+
+
+        return redirect()->route('show', [$id])->with('success', 'ارسال پیام با موفقیت انجام شد');
     }
 
 

@@ -11330,19 +11330,18 @@ textarea.form-control-lg {
 }
 .alert-div{
     background-color: #9bd49b;
+    background-image: linear-gradient( #dbe9db, #bbd9bb);
     border-radius: 6px;
     color: #008000;
-    margin-right: 2rem;
-    margin-left: 2rem;
     margin-top: 0.75rem;
     margin-button: 1rem;
     text-align: center;
     width: fit-content;
-    margin-right: inherit;
+    margin-right: 9rem;
 }
 .success .box-div{
-    background-color: #9bd49b;
     text-align: center;
+
 }
 .alert-div .success .box-div .font-alert{
     font-size: 1.5rem;

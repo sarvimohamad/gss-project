@@ -14,7 +14,7 @@ class AddDemandToServicesTable extends Migration
     public function up()
     {
         Schema::table('services', function (Blueprint $table) {
-            $table->set('demand' , ['approve','decline'])->nullable();
+            $table->set('demand' , ['approve','decline','response'])->nullable();
         });
     }
 
