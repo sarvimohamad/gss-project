@@ -12,13 +12,12 @@
             <div class="container">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>لیست درخواست های ثبت شده</h1>
+                        <h1>لیست درخواست ها</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-left">
-                            <li class="breadcrumb-item"><a style="text-decoration: none ; padding-left: 5px" href="dashboard">خانه</a></li>
-                            <li class="breadcrumb-item">مدیریت افتتاح حساب</li>
-                            <li class="breadcrumb-item active">لیست درخواست ها</li>
+                            <li class="breadcrumb-item"><a style="text-decoration: none ; padding-left: 5px" href="{{route('home')}}">خانه</a></li>
+                            <li class="breadcrumb-item "><a style="text-decoration: none ; padding-left: 5px" href="{{route('index')}}">لیست درخواست ها</a></li>
                         </ol>
                     </div>
                 </div>
@@ -30,31 +29,46 @@
             <div class="row">
                 <div class="col-11 mx-auto">
                     <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">لیست درخواست ها</h3>
-                        </div>
+
                         <!-- /.card-header -->
                         <div class="card-body" id="all-request-table">
-                            <form class="form-horizontal m-t-20" action="search-request" method="post"
+                            <form class="form-horizontal m-t-20" action="{{route('index' ,'q =$s' )}}" method="get"
                                   enctype="multipart/form-data">
                                 <div class="row mb-3 mt-2">
-                                    <div class="col-3">
-                                        <input class="col-12" placeholder="نوع درخواست ، نام ثبت کننده ، نام بانک"
-                                               value=""
-                                               type="search" id="search"
-                                               name="searchText" autocomplete="off">
+                                    <div class="col-2">
+                                        <input class="col-12" placeholder="  نام ثبت کننده ، نام بانک" name="q"  type="search" id="search" autocomplete="off" >
+                                    </div>
+                                    <div class="col-2">
+                                        <select class="col-12" name="type">
+                                            <option value="">نوع درخواست</option>
+                                            @foreach($type as $row)
+                                                <option value="{{$row->id}}">{{$row->name}}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
 
                                     <div class="col-2">
-                                        <input type="text" name="fromDate" placeholder="از تاریخ" id="fromDate"
-                                               autocomplete="off" style="width:90%" data-jdp>
+                                        <select class="col-12" name="status" id="status">
+                                            <option value="">وضعیت</option>
+                                            @foreach($status as $row)
+                                                <option value="{{$row->id}}">{{$row->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <div class="col-2">
+                                        <input  class="datepicker_from" placeholder="از تاریخ"
+                                                style="width:90%" >
+                                        <input type="hidden" name="date_from" class="datepicker_from_alt">
                                     </div>
                                     <div class="col-2">
-                                        <input type="text" name="toDate" placeholder="تا تاریخ" id="toDate"
-                                               autocomplete="off" style="width:90%" data-jdp>
+                                        <input class="datepicker_to" placeholder="تا تاریخ"
+                                               autocomplete="off" style="width:90%" >
+                                        <input type="hidden" name="date_to" class="datepicker_to_alt">
                                     </div>
-                                    <input type="hidden" name="_token" value="{{csrf_token()}}">
-                                    <button type="submit" class="request-btn" style="cursor:pointer">جستجو</button>
+                                    <div class="col-1">
+                                        <input type="submit" name="search" value="جستجو" class="request-btn">
+                                    </div>
                                 </div>
                             </form>
 
@@ -71,37 +85,39 @@
                                     <td class="pr-5">عملیات</td>
                                 </tr>
                                 </thead>
-                                <tbody>
+                                <tbody class="tbody">
                                 @foreach($data as $item)
                                     @if(print_r($item->status->id == 1 ,true))
-                                        <tr>
+                                        <tr class="text-center">
                                             <td>{{$item->typeRequest}}</td>
                                             <td>{{$item->typeRequest}}</td>
                                             <td>{{$item->bankName}}</td>
                                             <td>{{$item->code}}</td>
                                             <td>{{$item->name}}</td>
                                             <td>{{$item->mobile}}</td>
-                                            <td class="td-state">
-                                                <button disabled @if(print_r($item->status->id == 1 ,true)) class="btn btn-dark rounded button-status"
-                                                        @elseif(print_r($item->status->id == 2 ,true)) class="btn btn-warning btn-sm rounded button-status"
-                                                        @elseif(print_r($item->status->id == 3 ,true)) class="btn btn-success btn-sm rounded button-status"
-                                                        @elseif(print_r($item->status->id == 2 ,true)) class="btn btn-danger btn-sm rounded button-status"
+                                            <td class="td-state ">
+                                                <button disabled @if($item->status->id == 1)) class="btn btn-dark rounded button-status "
+                                                        @elseif($item->status->id == 2)) class="btn btn-warning btn-sm rounded button-status"
+                                                        @elseif($item->status->id == 3)) class="btn btn-success btn-sm rounded button-status"
+                                                        @elseif($item->status->id == 2)) class="btn btn-danger btn-sm rounded button-status"
                                                     @endif()>{{$item->status->name}}</button>
                                             </td>
 
                                             <td>
                                                 <div class="d-flex flex-row bd-highlight ">
-                                                    <div class="p-1">
+                                                    <div class="pr-5">
                                                         <div>
-                                                            <a class="more-info-btn" href="{{route('show' , $item->id)}}">جزئیات<img
-                                                                    src="/images/SVG/Arrow - Down 4.svg" alt="..."
-                                                                    class="pr-1">
+                                                            <a  href="{{route('show' , $item->id)}}">
+                                                                <img class="img-detail" src="/images/Detail.png">
                                                             </a>
                                                         </div>
                                                     </div>
                                                     @if(print_r($item->status->id == 1 ,true) && auth()->user()->role == 'bank')
                                                         <div class="">
-                                                            <a href="{{route('edit' ,$item->id)}}" class="btn btn-outline-primary btn-sm">ویرایش</a>
+                                                            <a href="{{route('edit' ,$item->id)}}" class="btn btn-outline-primary btn-sm">
+                                                                <img class="img-edit"
+                                                                     src="/images/EditSquare.png"/>
+                                                            </a>
                                                         </div>
                                                     @endif()
                                                 </div>

@@ -9,6 +9,7 @@ use App\Models\Service;
 use App\Models\Status;
 use App\Models\TypeRequest;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class ServiceController extends Controller
 {
@@ -28,20 +29,25 @@ class ServiceController extends Controller
                 $q->orWhere('bankName', 'like', "%{$s}%");
             });
         }
+
+        if ($s = $request->get('type')) {
+            $query->where('type_id', $s);
+        }
         if ($s = $request->get('status')) {
             $query->where('status_id', $s);
         }
         if ($s = $request->get('date_from')) {
-            $query->where('created_at', '>=', $s);
+            $query->where('created_at', '>=', $s . ' 00:00:00');
         }
         if ($s = $request->get('date_to')) {
-            $query->where('created_at', '<=', $s);
+            $query->where('created_at', '<=', $s . ' 23:59:59');
         }
 
-        $data = $query->orderBy('created_at','DESC')->paginate(5);
+        $data = $query->orderBy('created_at','DESC')->paginate(2)->withQueryString();
         $status = Status::query()->get()->all();
+        $type = TypeRequest::query()->get()->all();
 
-        return view('services.pending', ['data' => $data, 'status' => $status]);
+        return view('services.pending', ['data' => $data, 'status' => $status , 'type' => $type]);
     }
 
     public function show(Request $request, $id)
@@ -64,7 +70,8 @@ class ServiceController extends Controller
         $typeRequest = TypeRequest::all();
         $province = Province::all();
         $city = City::all();
-        return view('services.RequestServices', ['typeRequest' => $typeRequest, 'province' => $province, 'city' => $city]);
+        $services = Service::all();
+        return view('services.RequestServices', ['typeRequest' => $typeRequest, 'province' => $province, 'city' => $city , 'services' => $services]);
     }
 
     public function store(Request $request)
@@ -72,8 +79,8 @@ class ServiceController extends Controller
         $request->validate([
             'name' => ['required', 'string', 'max:100'],
             'mobile' => ['required', 'digits:11', 'starts_with:09'],
-            'province' => ['required', 'exists:tbl_website_state,id'],
-            'city' => ['required', 'exists:tbl_website_city,id'],
+//            'province_id' => ['required', 'exists:tbl_website_state,id'],
+//            'city_id' => ['required', 'exists:tbl_website_city,id'],
             'telephone' => ['required', 'max:15'],
             'address' => ['min:4', 'required'],
             'bankName' => ['required', 'string', 'max:100'],
@@ -82,6 +89,7 @@ class ServiceController extends Controller
             'breakdown' => ['max:200'],
             'code_branch' => ['required', 'max:100'],
             'post_center' => ['required', 'max:100'],
+//            'status_id' =>['required'],
         ]);
 //        $type = TypeRequest::all();
 //        $data = Service::query()->create($request->toArray());
@@ -100,11 +108,13 @@ class ServiceController extends Controller
         $data->breakdown = $request->breakdown;
         $data->code_branch = $request->code_branch;
         $data->post_center = $request->post_center;
-        $data->province = $request->province;
-        $data->city = $request->city;
+        $data->province_id = $request->province;
+        $data->city_id = $request->city;
 //        $data->created_at = carbon::now();
         $data['status_id'] = 1;
         $data['type_id'] = $request->get('type');
+
+
         $data->save();
 //        $data = Service::query()->create($request->toArray());
         return back()->with('success', 'درخواست با موفقیت ارسال شد ');
@@ -168,6 +178,8 @@ class ServiceController extends Controller
             $service->update(['status_id' => 5]);
         }elseif($service->status_id == 3 and $service->demand == 'approve'){
             $service->update(['status_id' => 4]);
+        }elseif ($service->status_id == 5 and $service->demand == 'approve' ){
+            $service->update(['status_id' => 4]);
         }
 
         return back()->with('success', 'ارسال  با موفقیت انجام شد');
@@ -194,10 +206,39 @@ class ServiceController extends Controller
     }
 
 
-    public function listSendStats()
+    public function listSendStats(Request $request)
     {
-        $data = Service::paginate(5);
-        return view('services.listSendStats', ['data' => $data]);
+        $query = Service::query();
+
+        if (auth()->user()->role == 'bank') {
+            $query->where('user_id', auth()->user()->id);
+        }
+
+        if ($s = $request->get('q')) {
+            $query->where(function ($q) use ($s) {
+                $q->orWhere('name', 'like', "%{$s}%");
+                $q->orWhere('bankName', 'like', "%{$s}%");
+            });
+        }
+
+        if ($s = $request->get('type')) {
+            $query->where('type_id', $s);
+        }
+        if ($s = $request->get('status')) {
+            $query->where('status_id', $s);
+        }
+        if ($s = $request->get('date_from')) {
+            $query->where('created_at', '>=', $s);
+        }
+        if ($s = $request->get('date_to')) {
+            $query->where('created_at', '<=', $s);
+        }
+
+        $data = $query->orderBy('created_at','DESC')->paginate(5);
+        $status = Status::query()->get()->all();
+        $type = TypeRequest::query()->get()->all();
+
+        return view('services.listSendStats', ['data' => $data, 'status' => $status , 'type' => $type]);
     }
 
 }

@@ -13,7 +13,8 @@
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.4",
         "mews/captcha": "^3.2",
-        "morilog/jalali": "3.*"
+        "morilog/jalali": "3.*",
+        "nesbot/carbon": "^2.57"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

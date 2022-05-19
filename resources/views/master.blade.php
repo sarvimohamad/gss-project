@@ -61,7 +61,7 @@
         <!-- Brand Logo -->
         <a href="" class="brand-link" style="text-decoration: none ; margin-right: 0.8rem">
             <img src="/images/logo.png" alt="AdminLTE Logo" class="brand-image img-circle">
-            <span class="brand-text font-weight-bold">پنل مدیریت</span>
+            <span class="brand-text font-weight-bold">پنل @if(auth()->user()->role == 'bank')<span>شعبه</span> @elseif(auth()->user()->role == 'user') <span>فناوری</span>@endif</span>
         </a>
         <!-- Sidebar -->
         <div class="sidebar" style="direction: ltr; margin-right: 0.8rem">
@@ -70,7 +70,7 @@
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="image">
 
-                            <img src="/images/avatar04.png" class="img-circle" alt="User Image">
+                            <img src="/images/avatar5.png" class="img-circle" alt="User Image">
 
                     </div>
                     <div class="info">
@@ -196,6 +196,7 @@
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="{{asset('js/pages/dashboard.js')}}"></script>
 <!-- AdminLTE for demo purposes -->
+<script src="{{asset('js/ac.js')}}"></script>
 <script src="{{asset('js/demo.js')}}"></script>
 @yield('script')
 </body>

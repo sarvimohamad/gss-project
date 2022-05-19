@@ -11350,10 +11350,14 @@ textarea.form-control-lg {
 }
 .button-status{
     width:5rem;
-    height:2rem;
+    height:1.5rem;
+    font-size:smaller;
+    padding-top: 1px;
+
 }
-.td-state{
+.table .tbody .td-state{
     text-align: center;
+    padding-top: 0.75rem;
 }
 .div-alert .alert-demand{
     border: 1px;
@@ -11447,28 +11451,24 @@ background-color: #f6f6f6;
 
 }
 .captcha{
-    height: 32px;
-    background: url("../images/loading.gif") no-repeat center;
+    height: 20px;
+    background: url("../images/1494.gif") no-repeat  ;
 }
-.captcha .reload-captcha{
-    margin: 2px;
-    width: 1rem;
-    height: 2rem;
+.captcha img{
+    width:160%;
 }
+.reload.reload-img{
+    background-color: red;
+}
+
 /*.captcha-input input{*/
 /*    background-image: url('../images/Lock@3x.png');*/
 /*    background-size: 8% 57%;*/
 /*    background-repeat: no-repeat;*/
 /*    background-position: right;*/
 /*}*/
-.captcha .reload-captcha{
-    margin: 2px;
-    width: 1rem;
-    height: 2rem;
-}
-.captcha img{
-    width:100%;
-}
+
+
 /*.captcha-input{*/
 /*    background-image: url('../images/SVG/Shield Done.svg');*/
 /*    background-size: 16% 60%;*/
@@ -11479,5 +11479,30 @@ background-color: #f6f6f6;
 .captcha-input::placeholder{
     font-size: 0.8rem;
     padding-right: 1.6rem;
+}
+.error-login{
+    background-color: #f9ecec;
+    margin-top:1rem;
+    width: auto;
+    text-align: match-parent;
+    margin-right: 3.75rem;
+    max-width: 28%;
+}
+.img-detail{
+    height: 1.95rem;
+}
+.img-edit{
+    height: 1.90rem;
+}
+
+.page-back{
+    background-color: #bae1ea;
+    background-image: linear-gradient(#b4dce7, #ecf8fc);
+    height: 8rem;
+    margin: 5rem;
+    border-radius: 10px;
+    text-align: center;
+    font: bold;
+    font-size: 20px;
 }
 

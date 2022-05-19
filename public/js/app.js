@@ -1,5 +1,9 @@
 $(document).ready(function () {
 
+    $('.basicAutoComplete').autoComplete();
+    $(this).on('ac.changed', function (e,item) {
+        $('input[name="code_branch"]').val(item.code)
+    })
         $('select[name="province"]').change(function(){
             const stateId = $(this).val();
             const url = `/provinces/${stateId}/cities`
@@ -16,14 +20,16 @@ $(document).ready(function () {
             })
         }).trigger('change')
 
-    $('#refresh-captcha').click(function () {
-        console.log('meysam')
-        var link = $('#refresh-captcha').attr('rel') + Math.random();
-        var img = $("<img>");
-        img.attr('src', link)
-        $('.captcha img').remove()
-        $('.captcha').prepend(img)
-    })
+    $(document).ready(function () {
+        $('#refresh-captcha').click(function () {
+
+            var link = $('#refresh-captcha').attr('rel') + Math.random();
+            var img = $("<img>");
+            img.attr('src', link)
+            $('.captcha img').remove()
+            $('.captcha').prepend(img)
+        })
+    });
 
     $('.focus-me').focus();
 
@@ -59,7 +65,7 @@ $('.select-item').change(function (){
 $('.select-item').change(function (){
 
     var value = $(this).val()
-    if(value == 3){
+    if(value == 3 | 5){
         $('.DropDownStatus , .textarea').show()
     }else{
         $('.DropDownStatus').hide()

@@ -87,12 +87,12 @@
 
                                         <div class="customer-info-grey customer-info-items font-size-14 px-2"><p>
                                                 استان<span
-                                                    class="customer-info-dark-blue pr-2">{{$province->name ?? '-'}}</span>
+                                                    class="customer-info-dark-blue pr-2">{{$service->province->name ?? '-'}}</span>
                                             </p></div>
 
                                         <div class="customer-info-grey customer-info-items font-size-14 px-2"><p>
                                                 شهر<span
-                                                    class="customer-info-dark-blue pr-2">{{$service->city ?? '-'}}</span>
+                                                    class="customer-info-dark-blue pr-2">{{$service->city->name ?? '-'}}</span>
                                             </p></div>
                                         <div class="customer-info-grey customer-info-items font-size-14 px-2"><p>آدرس
                                                 <span
@@ -121,20 +121,27 @@
                                     @if(auth()->user()->role == 'user')
 {{--                                        @if(!$service->demand == ['decline' , 'approve'])--}}
 
-                                            @if(in_array( $service->status_id ,[1,2,3] ))
+                                            @if(in_array( $service->status_id ,[1,2,3,5] ))
                                                 <form action="{{route('add.message' , [$service->id])}}" method="post">
                                                     @csrf
-                                                    <select class="form-select select-item  form-select-md  mr-1 ml-1"
-                                                            name="status">
-                                                        @foreach($statuses as $status)
-                                                            <option @if($status->id == $service->status_id) selected
-                                                                    @endif @if(in_array($status->id ,[1,2,4,5])) disabled
-                                                                    @endif() value="{{$status->id}}">{{$status->name}}</option>
-                                                        @endforeach()
-                                                    </select>
+                                                  <div class="d-flex justify-content-center">
+                                                      <div class="col-6">
+                                                          <select class="form-select select-item  form-select-md  mr-1 ml-1" style="display: none"
+                                                                  name="status">
+
+                                                              @foreach($statuses as $status)
+                                                                  <option @if($status->id == $service->status_id) selected
+                                                                          @endif @if(in_array($status->id ,[1,2,4])) disabled
+                                                                          @endif() value="{{$status->id}}">{{$status->name}}</option>
+                                                              @endforeach()
+                                                          </select>
+                                                      </div>
+
+                                                  </div>
 
                                                     <div class="d-flex justify-content-center mt-5">
                                                         <div class="form-group">
+                                                            <div class="pb-1">پیام خود را وارد کنید:</div>
                                                             <div class="textarea2" style="display: none">توضیحات</div>
                                                             <textarea name="text" class="form-control DropDownStatus"
                                                                       rows="3" required></textarea>
@@ -157,11 +164,11 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="d-flex justify-content-center pt-3 mt-3">
-                                                    <div class="alert-demand" style="height: 3rem">
-                                                        <p class="alert-para">درخواست شما ارسال شده</p>
-                                                    </div>
-                                                </div>
+{{--                                                <div class="d-flex justify-content-center pt-3 mt-3">--}}
+{{--                                                    <div class="alert-demand" style="height: 3rem">--}}
+{{--                                                        <p class="alert-para">درخواست توسط شعبه ارسال شده</p>--}}
+{{--                                                    </div>--}}
+{{--                                                </div>--}}
 
                                             @endif()
 {{--                                        @endif()--}}

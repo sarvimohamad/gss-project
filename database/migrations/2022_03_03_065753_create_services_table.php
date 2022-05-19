@@ -19,8 +19,8 @@ class CreateServicesTable extends Migration
             $table->bigInteger('mobile')->nullable();
             $table->bigInteger('telephone')->nullable();
             $table->string('address')->nullable();
-            $table->string('province')->nullable();
-            $table->string('city')->nullable();
+            $table->string('province_id')->nullable();
+            $table->string('city_id')->nullable();
             $table->string('desc')->nullable();
             $table->string('typeRequest')->nullable();
             $table->string('bankName')->nullable();

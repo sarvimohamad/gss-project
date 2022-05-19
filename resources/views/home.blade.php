@@ -40,7 +40,7 @@
                                     <img src="/images/SVG/Two color_ Note.svg" alt="icon" class="img-fluid">
                                 </div>
 
-                                <p  class="mb-0"> کل درخواست ها ({{$services}})</p>
+                                <p  class="text-center text-bold"> کل درخواست ها ({{$services}})</p>
                             </div>
                         </div>
                     </div>
@@ -51,9 +51,9 @@
                             <div class="small-box box-{{$key+1}} text-white">
                                 <div class="inner pb-5">
                                     <div class="box-icon d-inline-block">
-                                        <img src="/images/SVG/Two color_ Note-Plus.svg" alt="icon" class="img-fluid">
+                                        <img src="/images/SVG/Two color_ Note.svg" alt="icon" class="img-fluid">
                                     </div>
-                                    <p class="mb-0">{{$item->name}} ({{$item->services->count()}})</p>
+                                    <p class="text-center text-bold ">{{$item->name}} ({{$item->services->count()}})</p>
                                 </div>
                             </div>
                         </div>

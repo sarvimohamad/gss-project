@@ -10,7 +10,7 @@ class Service extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'mobile', 'telephone', 'address', 'province', 'city', 'desc', 'typeRequest', 'bankName', 'serial', 'status_id',
+    protected $fillable = ['name', 'mobile', 'telephone', 'address', 'province_id', 'city_id', 'desc', 'typeRequest', 'bankName', 'serial', 'status_id',
         'demand', 'reason_id', 'type_id', 'post_center', 'breakdown', 'code_branch'];
 
     public function status()
@@ -29,7 +29,7 @@ class Service extends Model
 
     public function city()
     {
-        return $this->belongsTo(Province::class);
+        return $this->belongsTo(City::class);
     }
 
     public function messages()

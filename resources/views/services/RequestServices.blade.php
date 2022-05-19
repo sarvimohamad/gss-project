@@ -15,7 +15,7 @@
         @endif
 
         <div class="p-2 pb-5 text-bold">
-            درخواست ارزیابی
+            درخواست <خدمات></خدمات>
         </div>
         <div class="alert-div">
             @if (\Session::has('success'))
@@ -52,7 +52,7 @@
                             <label for="input-State" class="form-label">استان</label>
                         </div>
                         <div class="col-8 p-0">
-                            <select class="form-select" name="province">
+                            <select class="form-select" name="province" required>
                                 <option>-- انتخاب --</option>
                                 @foreach($province as $rows)
                                     <option value="{{$rows->id}}">{{$rows->name}}</option>
@@ -73,7 +73,7 @@
                             <label for="input-State" class="form-label">شهر</label>
                         </div>
                         <div class="col-8 p-0">
-                            <select class="form-select" name="city">
+                            <select class="form-select" name="city" required>
                                 <option>-- انتخاب --</option>
                             </select>
                         </div>
@@ -88,16 +88,24 @@
                             <label for="inputPassword4" class="form-label">نام بانک-نام شعبه</label>
                         </div>
                         <div class="col-8 p-0">
-                            <input name="bankName" value="{{old('bankName')}}" type="text" class="form-control" id="inputPassword4"  autocomplete="off"  required>
+                            <select name="bankName" value="{{old('bankName')}}" type="text"
+                                   class="form-control basicAutoComplete"
+                                   data-url="{{route('bank.names')}}"
+                                    id="inputPassword4"  autocomplete="off"  required></select>
                         </div>
                     </div>
+{{--                    @foreach($services as $service)--}}
+{{--                    {{$service->bankName}}--}}
+{{--                    @endforeach--}}
+
                     <div class="form-group col-lg-5 col-12 text-center mx-auto">
                         <div class="col-4 p-0">
                             <label for="inputEmail4" class="form-label">کد شعبه</label>
                         </div>
                         <div class="col-8 p-0">
-                            <input name="code_branch" type="text" max="8" class="form-control" id="inputEmail4"  value="{{old('code_branch')}}"
-                                    autocomplete="off" required>
+                            <input name="code_branch" type="text" disabled class="form-control"
+                                    id="inputEmail4"  value="{{old('code_branch')}}"
+                                    autocomplete="off" >
                         </div>
                     </div>
                 </div>

@@ -35,15 +35,24 @@
                             <form class="form-horizontal m-t-20" action="{{route('index' ,'q =$s' )}}" method="get"
                                   enctype="multipart/form-data">
                                 <div class="row mb-3 mt-2">
-                                    <div class="col-3">
-                                        <input class="col-12" placeholder="  نوع درخواست ، نام ثبت کننده ، نام بانک" name="q"  type="search" id="search" autocomplete="off" >
+                                    <div class="col-2">
+                                        <input class="col-12" placeholder="  نام ثبت کننده ، نام بانک" name="q"  type="search" id="search" autocomplete="off" >
                                     </div>
+                                    <div class="col-2">
+                                        <select class="col-12" name="type">
+                                            <option value="">نوع درخواست</option>
+                                        @foreach($type as $row)
+                                            <option value="{{$row->id}}">{{$row->name}}</option>
+                                        @endforeach
+                                        </select>
+                                    </div>
+
                                     <div class="col-2">
                                         <select class="col-12" name="status" id="status">
                                             <option value="">وضعیت</option>
-                                        @foreach($status as $row)
-                                            <option value="{{$row->id}}">{{$row->name}}</option>
-                                        @endforeach
+                                            @foreach($status as $row)
+                                                <option value="{{$row->id}}">{{$row->name}}</option>
+                                            @endforeach
                                         </select>
                                     </div>
 
@@ -57,7 +66,7 @@
                                                autocomplete="off" style="width:90%" >
                                         <input type="hidden" name="date_to" class="datepicker_to_alt">
                                     </div>
-                                    <div class="col-2">
+                                    <div class="col-1">
                                     <input type="submit" value="جستجو" class="request-btn">
                                     </div>
                                 </div>
@@ -75,7 +84,7 @@
                                     <th>عملیات</th>
                                 </tr>
                                 </thead>
-                                <tbody>
+                                <tbody class="tbody">
                                 @foreach($data as $item)
                                     <?php
                                     $time = \Morilog\Jalali\Jalalian::forge($item->created_at)->format('%H:%M:%S  %Y/%m/%d');
@@ -86,7 +95,7 @@
                                         <td>{{$item->bankName}}</td>
                                         <td>{{$item->code_branch}}</td>
                                         <td>{{$time}}</td>
-                                        <td class="text-center">
+                                        <td class="td-state">
                                             <button disabled
                                                     @if(print_r($item->status->id == 1 ,true)) class="btn btn-dark btn-sm rounded button-status"
                                                     @elseif(print_r($item->status->id == 2 ,true)) class="btn btn-warning btn-sm rounded button-status"
@@ -97,20 +106,15 @@
                                         </td>
                                         <td>
                                             <div class="d-flex flex-row bd-highlight ">
-                                                <div class="p-1">
-                                                    <div>
-                                                        <a class="more-info-btn" href="{{route('show' , $item->id)}}">جزئیات<img
-                                                                src="/images/SVG/Arrow - Down 4.svg" alt="..."
-                                                                class="pr-1">
+                                                <div class="pr-5">
+                                                        <a  href="{{route('show' , $item->id)}}"><img class="img-detail" src="/images/Detail.png">
                                                         </a>
-                                                    </div>
                                                 </div>
                                                 @if(print_r($item->status->id == 1 ,true) && auth()->user()->role == 'bank')
-                                                    <div class="p-1">
-                                                        <a href="{{route('edit' ,$item->id)}}"
-                                                           class="more-info-btn">ویرایش<img
-                                                                src="/images/SVG/Arrow - Down 4.svg" alt="..."
-                                                                class="pr-1"></a>
+                                                    <div class="pr-1">
+                                                        <a href="{{route('edit' ,$item->id)}}"><img class="img-edit"
+                                                                src="/images/EditSquare.png"
+                                                              </a>
                                                     </div>
                                                 @endif()
                                             </div>
@@ -159,15 +163,24 @@
 <script src="{{asset('/js/jdate.min.js')}}"></script>
 <script>
     $(document).ready(function(){
+        window.formatPersian = false;
         $('.datepicker_from').pDatepicker({
             initialValue: false,
-            format: 'YYYY-MM-DD',
+           format: 'YYYY-MM-DD',
             altField: '.datepicker_from_alt',
+            altFieldFormatter: function (e) {
+                const m = new Date(e)
+                return  m.getUTCFullYear() +"-"+ (m.getUTCMonth()+1) +"-"+ m.getUTCDate()
+            }
         });
         $('.datepicker_to').pDatepicker({
             initialValue: false,
-            format: 'YYYY-MM-DD',
+           format: 'YYYY-MM-DD',
             altField: '.datepicker_to_alt',
+            altFieldFormatter: function (e) {
+                const m = new Date(e)
+                return  m.getUTCFullYear() +"-"+ (m.getUTCMonth()+1) +"-"+ m.getUTCDate()
+            }
         });
     })
     {{--jalaliDatepicker.startWatch();--}}
